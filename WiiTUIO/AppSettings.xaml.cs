@@ -48,7 +48,8 @@ namespace WiiTUIO
         {
             this.cbMinimizeOnStart.IsChecked = Settings.Default.minimizeOnStart;
             this.cbMinimizeToTray.IsChecked = Settings.Default.minimizeToTray;
-            this.cbPairOnStart.IsChecked = Settings.Default.pairOnStart;
+            this.pairOneOnStart.IsSelected = Settings.Default.pairOnStart;
+            this.continuousPairOnStart.IsSelected = Settings.Default.continuousPairOnStart;
             this.cbUseCustomCursor.IsChecked = Settings.Default.pointer_customCursor;
 
             InputFactory.InputType inputType = InputFactory.getType(Settings.Default.input);
@@ -110,14 +111,24 @@ namespace WiiTUIO
             }
         }
 
-        private void cbPairOnStart_Checked(object sender, RoutedEventArgs e)
+        private void pairOnStartModeChanged(object sender, SelectionChangedEventArgs e)
         {
-            Settings.Default.pairOnStart = true;
+            if (pairOnStartComboBox.SelectedItem != null && ((ComboBoxItem)pairOnStartComboBox.SelectedItem).Content != null)
+            {
+                ComboBoxItem chosenPairOnStartMode = (ComboBoxItem)pairOnStartComboBox.SelectedItem;
+                Settings.Default.pairOnStart = chosenPairOnStartMode == pairOneOnStart;
+                Settings.Default.continuousPairOnStart = chosenPairOnStartMode == continuousPairOnStart;
+            }
         }
 
-        private void cbPairOnStart_Unchecked(object sender, RoutedEventArgs e)
+        private void cbContinuousPairOnStart_Checked(object sender, RoutedEventArgs e)
         {
-            Settings.Default.pairOnStart = false;
+            Settings.Default.continuousPairOnStart = true;
+        }
+
+        private void cbContinuousPairOnStart_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.continuousPairOnStart = false;
         }
 
         private void cbMinimizeToTray_Checked(object sender, RoutedEventArgs e)

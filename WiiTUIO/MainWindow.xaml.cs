@@ -50,8 +50,6 @@ namespace WiiTUIO
 
         private bool tryingToConnect = false;
 
-        private bool startupPair = false;
-
         private Mutex statusStackMutex = new Mutex();
 
         private SystemProcessMonitor processMonitor;
@@ -183,9 +181,8 @@ namespace WiiTUIO
             this.createProvider();
             //this.createProviderHandler();
 
-            if (Settings.Default.pairOnStart)
+            if (Settings.Default.continuousPairOnStart || Settings.Default.pairOnStart)
             {
-                this.startupPair = true;
                 this.runWiiPair();
             }
             else //if (Settings.Default.connectOnStart)
@@ -701,10 +698,9 @@ namespace WiiTUIO
                     }), null);
 
                     int stopat = 10;
-                    if (this.startupPair)
+                    if (Settings.Default.pairOnStart)
                     {
                         stopat = 1;
-                        this.startupPair = false;
                     }
                     wiiPair.start(false, stopat); //Run the actual pairing after removing all previous connected devices.
                 }

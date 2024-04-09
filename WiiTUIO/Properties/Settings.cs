@@ -49,6 +49,17 @@ namespace WiiTUIO.Properties
             }
         }
 
+        private bool _continuousPairOnStart = false;
+        public bool continuousPairOnStart
+        {
+            get { return _continuousPairOnStart; }
+            set
+            {
+                _continuousPairOnStart = value;
+                OnPropertyChanged("continuousPairOnStart");
+            }
+        }
+
         private bool _connectOnStart = true;
         public bool connectOnStart
         {
